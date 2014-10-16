@@ -1,0 +1,36 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:drools-spring="http://drools.org/schema/drools-spring"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.2.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.2.xsd http://drools.org/schema/drools-spring http://anonsvn.jboss.org/repos/labs/labs/jbossrules/trunk/drools-container/drools-spring/src/main/resources/org/drools/container/spring/drools-spring-1.0.0.xsd">
+
+	<aop:aspectj-autoproxy/>
+	
+	<drools-spring:resource-change-scanner id="scanner" interval="30"/>
+    <drools-spring:kbase id="commissionsKBase">
+        <drools-spring:resources>
+            <drools-spring:resource type="DRL" source="classpath*:/reglas1.drl"/>
+            <drools-spring:resource type="DRL" source="classpath*:/reglas2.drl"/>
+        </drools-spring:resources>
+    </drools-spring:kbase>
+    
+     <drools-spring:ksession id="commissionsKSession" name="commissionsKSession" type="stateful" kbase="commissionsKBase"/>
+     
+     <bean id="comisionService" class="springaop.ServiceCommisionImpl">
+		<property name="ksession" ref="commissionsKSession" />
+		<property name="kbase" ref="commissionsKBase" />
+	</bean>
+	
+	<bean id="simpleServiceBean" class="springaop.SimpleServiceImpl">
+
+	</bean>
+ 
+	<bean id="doBeforeAspect" class="springaop.DoBeforeAspect" />
+	
+	
+	<bean id="doAfterReturningAspect" class="springaop.DoAfterReturningAspect">
+		<property name="comision" ref="comisionService" />
+ 	</bean>
+</beans>
