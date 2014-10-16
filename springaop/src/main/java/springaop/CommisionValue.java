@@ -2,6 +2,8 @@ package springaop;
 
 public class CommisionValue {
 	
+	private int active;
+	
 	private int type;
 	
 	private double valueProduct;
@@ -9,8 +11,9 @@ public class CommisionValue {
 	private double valueCommision = 0.0;
 	
 	
-	public CommisionValue(int type, double valueProduct) {
+	public CommisionValue(int active, int type, double valueProduct) {
 		super();
+		this.setActive(active);
 		this.type = type;
 		this.valueProduct = valueProduct;
 	}
@@ -37,6 +40,14 @@ public class CommisionValue {
 
 	public void setValueCommision(double valueCommision) {
 		this.valueCommision = valueCommision;
+	}
+
+	public int getActive() {
+		return active;
+	}
+
+	public void setActive(int active) {
+		this.active = active;
 	}
 
 }

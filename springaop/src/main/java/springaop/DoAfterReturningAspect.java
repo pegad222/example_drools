@@ -2,13 +2,11 @@ package springaop;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 
  
@@ -17,13 +15,12 @@ public class DoAfterReturningAspect {
 	
 	private ServiceCommisionImpl comision;
 	
- 
-   public DoAfterReturningAspect() {
+	public DoAfterReturningAspect() {
 		super();
 	}
 	
 	@AfterReturning(pointcut = "@annotation(springaop.Commision)", returning= "result")
-	   public void doAfterReturning(JoinPoint joinPoint, Object result) throws IOException, NoSuchMethodException, SecurityException
+	public void doAfterReturning(JoinPoint joinPoint, Object result) throws IOException, NoSuchMethodException, SecurityException
 	   , IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		
 		CommisionValue comisionValue = null;
@@ -36,11 +33,11 @@ public class DoAfterReturningAspect {
 	    for(Annotation annotation : annotations){
 		    if(annotation instanceof Commision){
 		    	Commision myAnnotation = (Commision) annotation;
-		    	comisionValue = new CommisionValue(myAnnotation.type(),(Double) result);
+		    	comisionValue = new CommisionValue(myAnnotation.active(),myAnnotation.type(),(Double) result);
 		    }
 		}
-		   
-		   comision.obtenerComision(comisionValue);
+	    
+	    comision.obtenerComision(comisionValue);
 		
 	   }
 

@@ -1,11 +1,19 @@
 import springaop.CommisionValue
 
-rule "regla_1"
+rule "regla_1_1"
     when
-        comision : CommisionValue(type == 1 , valueProduct > 100);
+        comision : CommisionValue(active == 1, type == 1 , valueProduct > 100);
     then
     	comision.setValueCommision((comision.getValueProduct() * 20)/100);
-        System.out.println("Comision regla 1: " + comision.getValueCommision());
+        System.out.println("Comision regla 1_1: " + comision.getValueCommision());
+end
+
+rule "regla_1_2"
+    when
+        comision : CommisionValue(active == 0, type == 1 , valueProduct > 100);
+    then
+    	comision.setValueCommision((comision.getValueProduct() * 20)/100);
+        System.out.println("Comision regla 1_2: " + comision.getValueCommision());
 end
 
 rule "no_regla_1"
